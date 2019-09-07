@@ -1,7 +1,7 @@
 
 {
     "name" : "games.artees.package-manifest-generator",
-    "version" : "1.0.0",
+    "version" : "1.0.1",
     "displayName" : "Package Manifest Generator",
     "description" : "Creates the package manifest file for a Unity package",
     "unity"       : "2019.2",

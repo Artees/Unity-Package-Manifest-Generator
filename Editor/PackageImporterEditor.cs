@@ -20,6 +20,7 @@ namespace Artees.UnityPackageManifestGenerator.Editor
         {
             base.Apply();
             Target.Export();
+            EditorUtility.SetDirty(Target);
             if (Target.AutoExportJson) ExportJsonAs(DefaultAbsoluteJsonPath);
             GUI.FocusControl(FirstControlName);
         }
