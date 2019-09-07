@@ -1,0 +1,18 @@
+{
+    "name": "Artees.UnityPackageManifestGenerator.Editor",
+    "references": [
+        "GUID:e7e55ab570da7874391e2003ca00ba42",
+        "GUID:c7f2f2911de381941be7186214305448"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
