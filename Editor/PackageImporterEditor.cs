@@ -6,7 +6,10 @@ using UnityEditor;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
+
+#if UNITY_EDITOR_WIN
+    using Object = UnityEngine.Object;
+#endif
 
 namespace Artees.UnityPackageManifestGenerator.Editor
 {
@@ -127,13 +130,13 @@ namespace Artees.UnityPackageManifestGenerator.Editor
 
         private void Publish(string registry)
         {
+            var directory = Directory.GetParent(DefaultAbsoluteJsonPath).FullName;
 #if UNITY_EDITOR_WIN
             const string publishScriptName = "PublishWin";
             const string packageFolder = "Assets/Artees/UnityPackageManifestGenerator/Editor/";
             const string publishScriptPath = packageFolder + publishScriptName + ".bat";
             CopyPublishScript(publishScriptPath, publishScriptName);
             var publishScriptFullPath = Application.dataPath + publishScriptPath.Substring(6);
-            var directory = Directory.GetParent(DefaultAbsoluteJsonPath).FullName;
             var arguments = $"/K \"{publishScriptFullPath}\" {registry}";
             var startInfo = new ProcessStartInfo("cmd", arguments)
             {
@@ -141,10 +144,23 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             };
             Process.Start(startInfo);
 #else
-            Debug.LogWarning("Publishing a package to a registry is currently only available for Windows.");
+            var startInfo = new ProcessStartInfo("npm", "publish --registry " + registry)
+            {
+                WorkingDirectory = directory,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            var process = Process.Start(startInfo);
+            if (process == null) return;
+            var output = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
+            if (!string.IsNullOrEmpty(output)) Debug.Log(output);
+            if (!string.IsNullOrEmpty(error)) Debug.LogError(error);
 #endif
         }
 
+#if UNITY_EDITOR_WIN
         private static void CopyPublishScript(string publishScriptPath, string publishScriptName)
         {
             if (AssetDatabase.LoadAssetAtPath<Object>(publishScriptPath) != null) return;
@@ -157,6 +173,7 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             AssetDatabaseUtil.CreateFolderRecursively(publishScriptPath);
             AssetDatabase.CopyAsset(AssetDatabase.GUIDToAssetPath(publishScripts[0]), publishScriptPath);
         }
+#endif
 
         private void CreateAsmdefWarning()
         {
