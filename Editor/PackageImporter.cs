@@ -108,8 +108,6 @@ namespace Artees.UnityPackageManifestGenerator.Editor
                 {
                 }
             }
-
-            Export();
         }
 
         public void Export()

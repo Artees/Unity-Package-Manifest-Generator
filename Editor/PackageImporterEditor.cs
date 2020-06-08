@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,9 +5,9 @@ using UnityEditor;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
-
 #if UNITY_EDITOR_WIN
-    using Object = UnityEngine.Object;
+using Object = UnityEngine.Object;
+
 #endif
 
 namespace Artees.UnityPackageManifestGenerator.Editor
@@ -102,14 +101,21 @@ namespace Artees.UnityPackageManifestGenerator.Editor
                     return string.Empty;
                 }
 
-                var projectDirectory = Directory.GetParent(Application.dataPath);
-                return Path.Combine(projectDirectory.FullName, relativeJsonPath);
+                return Path.Combine(ProjectPath, relativeJsonPath);
             }
         }
 
+        private static string ProjectPath => Directory.GetParent(Application.dataPath).FullName;
+
         private static string GetRelativePath(string absolutePath)
         {
-            return new Uri(Application.dataPath).MakeRelativeUri(new Uri(absolutePath)).ToString();
+            var projectPath = ReplaceSeparators(ProjectPath);
+            return ReplaceSeparators(absolutePath).Replace(projectPath, "").TrimStart('/');
+        }
+
+        private static string ReplaceSeparators(string path)
+        {
+            return path.Replace(Path.PathSeparator, '/').Replace('\\', '/');
         }
 
         private void CreatePublishGui()

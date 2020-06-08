@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0d10eb3209eb09ffcab956155ae29519
+guid: aa912523c211b124bb1574d0a4d53035
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,7 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 305d72b64a2242c0b6ff1d70a6bc89f4, type: 3}
   name: games.artees.package-manifest-generator
-  version: 1.0.1
+  version: 1.0.3
   displayName: Package Manifest Generator
   description: Creates the package manifest file for a Unity package
   unity: 2019.2
@@ -26,4 +26,4 @@ ScriptedImporter:
     email: yo@artees.games
     url: https://github.com/Artees/Unity-Package-Manifest-Generator
   autoExportJson: 1
-  registryUrl: https://upm.artees.gamess:4873
+  registryUrl: https://upm.artees.games:4873

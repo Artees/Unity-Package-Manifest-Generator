@@ -17,8 +17,8 @@ namespace Artees.UnityPackageManifestGenerator.Editor
                 : selectedPath;
             if (directoryPath == null) return;
             var packagePath = directoryPath + "/package.jsonpackage";
-            var asset = new TextAsset();
-            AssetDatabase.CreateAsset(asset, packagePath);
+            File.WriteAllText(packagePath, "{}");
+            AssetDatabase.ImportAsset(packagePath);
             Selection.activeObject = AssetDatabase.LoadAssetAtPath<Object>(packagePath);
         }
     }
