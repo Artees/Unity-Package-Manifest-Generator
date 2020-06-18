@@ -1,13 +1,14 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+
 #if UNITY_EDITOR_WIN
 using Object = UnityEngine.Object;
-
 #endif
 
 namespace Artees.UnityPackageManifestGenerator.Editor
@@ -17,6 +18,9 @@ namespace Artees.UnityPackageManifestGenerator.Editor
     {
         private const string JsonExtension = "json";
         private const string FirstControlName = "FirstControlName";
+
+        private bool _isAsmdef = true;
+        private string _assetFolder = "";
 
         protected override void Apply()
         {
@@ -28,6 +32,29 @@ namespace Artees.UnityPackageManifestGenerator.Editor
         }
 
         private PackageImporter Target => (PackageImporter) target;
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            _isAsmdef = CheckAsmdef();
+        }
+
+        [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery",
+            Justification = "Performance optimization")]
+        private bool CheckAsmdef()
+        {
+            var assetPath = AssetDatabase.GetAssetPath(target);
+            var assetFolder = Path.GetDirectoryName(assetPath);
+            if (assetFolder == null) return true;
+            _assetFolder = assetFolder.Replace("\\", "/");
+            var regex = new Regex($"^{_assetFolder}.*\\.asmdef$");
+            foreach (var path in AssetDatabase.GetAllAssetPaths())
+            {
+                if (regex.IsMatch(path)) return true;
+            }
+
+            return false;
+        }
 
         public override void OnInspectorGUI()
         {
@@ -183,14 +210,10 @@ namespace Artees.UnityPackageManifestGenerator.Editor
 
         private void CreateAsmdefWarning()
         {
-            var assetPath = AssetDatabase.GetAssetPath(target);
-            var assetFolder = Path.GetDirectoryName(assetPath);
-            if (assetFolder == null) return;
-            var af = assetFolder.Replace("\\", "/");
-            if (AssetDatabase.GetAllAssetPaths().Any(s => s.EndsWith(".asmdef") && s.StartsWith(af))) return;
+            if (_isAsmdef) return;
             CreateSpace();
             var message = "A package must have all its scripts within one or more assembly definition files. " +
-                          $"Add an asmdef to {af}.";
+                          $"Add an asmdef to {_assetFolder}.";
             EditorGUILayout.HelpBox(message, MessageType.Warning);
         }
     }
