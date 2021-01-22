@@ -1,14 +1,14 @@
 
 {
     "name" : "games.artees.package-manifest-generator",
-    "version" : "1.0.5",
+    "version" : "1.0.6",
     "displayName" : "Package Manifest Generator",
     "description" : "Creates the package manifest file for a Unity package",
-    "unity"       : "2019.3",
+    "unity"       : "2019.4",
     "unityRelease" : "",
     "dependencies" : {
         "games.artees.litjson" : "0.13.2",
-        "games.artees.semver"  : "0.3.3"
+        "games.artees.semver"  : "0.3.4"
     },
     "keywords"     : [
     ],
