@@ -48,19 +48,18 @@ namespace Artees.UnityPackageManifestGenerator.Editor
         [SerializeField]
         private string unityRelease;
 
-        [SerializeField]
-        private PackageDependencies dependencies;
+        [SerializeField] private PackageDependencies dependencies;
 
         [Tooltip("An array of keywords used by the Package Manager search APIs. " +
                  "This helps users find relevant packages.")]
         [SerializeField]
         private string[] keywords;
 
-        [Tooltip("Author of the package.")]
-        [SerializeField] private PackageAuthor author = new PackageAuthor();
-        
+        [Tooltip("Author of the package.")] [SerializeField]
+        private PackageAuthor author = new PackageAuthor();
+
         [SerializeField, HideInInspector] private bool autoExportJson = true;
-        
+
         [SerializeField, HideInInspector] private string registryUrl = "https://registry.my-company.com";
 #pragma warning restore 649
 
@@ -148,7 +147,7 @@ namespace Artees.UnityPackageManifestGenerator.Editor
 
             if (string.IsNullOrEmpty(displayName))
             {
-                displayName = Application.productName;
+                displayName = new DomainName(name).Subdomains.Last();
             }
 
             ValidateUnity();

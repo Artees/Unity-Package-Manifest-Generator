@@ -5,12 +5,12 @@ namespace Artees.UnityPackageManifestGenerator.Editor
 {
     internal class DomainName
     {
-        private readonly string[] _subdomains;
+        public readonly string[] Subdomains;
 
         public DomainName(string domainName)
         {
             var validDomainName = ReplaceInvalidCharacters(domainName);
-            _subdomains = validDomainName.Split('.');
+            Subdomains = validDomainName.Split('.');
         }
 
         public DomainName(string productName = "product-name",
@@ -20,7 +20,7 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             var validTopLevel = ReplaceInvalidCharacters(topLevel);
             var validCompanyName = ReplaceInvalidCharacters(companyName);
             var validProductName = ReplaceInvalidCharacters(productName);
-            _subdomains = new[] {validProductName, validCompanyName, validTopLevel};
+            Subdomains = new[] {validProductName, validCompanyName, validTopLevel};
         }
 
         private static string ReplaceInvalidCharacters(string input)
@@ -41,12 +41,12 @@ namespace Artees.UnityPackageManifestGenerator.Editor
 
         public string Reverse()
         {
-            return Join(_subdomains.Reverse().ToArray());
+            return Join(Subdomains.Reverse().ToArray());
         }
 
         public override string ToString()
         {
-            return Join(_subdomains);
+            return Join(Subdomains);
         }
 
         private static string Join(string[] value)
