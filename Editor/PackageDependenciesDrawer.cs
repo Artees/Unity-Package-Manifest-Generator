@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using LitJson;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,10 @@ namespace Artees.UnityPackageManifestGenerator.Editor
     [CustomPropertyDrawer(typeof(PackageDependencies))]
     internal class PackageDependenciesDrawer : PropertyDrawer
     {
+        private static readonly Regex SemVerRegex = SemVerRegex =
+            new Regex(
+                @"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?");
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             label.tooltip = "A map of package dependencies. They indicate other packages that this package depends on.";
@@ -24,9 +29,9 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             var targetObject = property.serializedObject.targetObject;
             if (!(fieldInfo.GetValue(targetObject) is PackageDependencies target)) return;
             var newTarget = new PackageDependencies();
-            foreach (var dependency in manifest.dependencies)
+            foreach (var (key, value) in manifest.dependencies)
             {
-                CreateToggle(dependency.Key, dependency.Value, target, newTarget);
+                CreateToggle(key, SemVerRegex.Match(value).Value, target, newTarget);
             }
 
             var targetPackage = Path.ChangeExtension(AssetDatabase.GetAssetPath(targetObject), "json");
