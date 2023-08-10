@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c5ac9d03fedd4694a8be2078c8a69710
+guid: 12743a79d1705c9c3ae8ac19bf68d2e5
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -17,9 +17,9 @@ ScriptedImporter:
   dependencies:
     keyValuePairs:
     - key: games.artees.litjson
-      value: 0.13.2
+      value: 0.18.0
     - key: games.artees.semver
-      value: 0.3.4
+      value: 0.3.5
   keywords: []
   author:
     name: Artees
