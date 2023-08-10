@@ -7,8 +7,8 @@
     "unity"       : "2022.3",
     "unityRelease" : "",
     "dependencies" : {
-        "games.artees.litjson" : "0.13.2",
-        "games.artees.semver"  : "0.3.4"
+        "games.artees.litjson" : "0.18.0",
+        "games.artees.semver"  : "0.3.5"
     },
     "keywords"     : [
     ],

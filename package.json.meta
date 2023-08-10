@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 16812608184eedf06b020e5d47a904a9
+guid: c5ac9d03fedd4694a8be2078c8a69710
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -12,7 +12,7 @@ ScriptedImporter:
   version: 1.0.7
   displayName: Package Manifest Generator
   description: Creates the package manifest file for a Unity package
-  unity: 2019.4
+  unity: 2022.3
   unityRelease: 
   dependencies:
     keyValuePairs:
