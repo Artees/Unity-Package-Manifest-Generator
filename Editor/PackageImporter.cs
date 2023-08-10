@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Artees.UnitySemVer;
 using LitJson;
-using UnityEditor.Experimental.AssetImporters;
+using UnityEditor.AssetImporters;
 using UnityEngine;
 
 namespace Artees.UnityPackageManifestGenerator.Editor
