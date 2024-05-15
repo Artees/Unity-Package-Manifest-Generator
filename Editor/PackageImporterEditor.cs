@@ -61,6 +61,7 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             GUI.SetNextControlName(FirstControlName);
             base.OnInspectorGUI();
             CreateImportExportGui();
+            if (Target.AutoExportJson) CreateOverrideExportPathGui();
             CreatePublishGui();
             CreateAsmdefWarning();
         }
@@ -74,6 +75,21 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             Target.AutoExportJson = GUILayout.Toggle(Target.AutoExportJson, autoExportContent);
             if (CreateButton("Import package.json...", "Import the package manifest file")) ImportJson();
             if (CreateButton("Export package.json...", "Export the package manifest file")) ExportJsonAs();
+            GUILayout.EndHorizontal();
+        }
+
+        private void CreateOverrideExportPathGui()
+        {
+            GUILayout.BeginHorizontal();
+            var autoExportPathContent = new GUIContent("Override Auto Export Path",
+                "Where do you save the package manifest file (package.json)?");
+            Target.OverrideExportJsonPath = GUILayout.Toggle(Target.OverrideExportJsonPath, autoExportPathContent);
+            if (Target.OverrideExportJsonPath)
+            {
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                Target.AutoExportJsonPath = GUILayout.TextField(Target.AutoExportJsonPath);
+            }
             GUILayout.EndHorizontal();
         }
 
@@ -121,6 +137,12 @@ namespace Artees.UnityPackageManifestGenerator.Editor
             get
             {
                 var assetPath = AssetDatabase.GetAssetPath(target);
+                if (Target.OverrideExportJsonPath)
+                {
+                    var dirName = Path.GetDirectoryName(assetPath);
+                    var fileName = Path.GetFileName(assetPath);
+                    assetPath = Path.Combine(dirName, Target.AutoExportJsonPath, fileName);
+                }
                 var relativeJsonPath = Path.ChangeExtension(assetPath, JsonExtension);
                 if (string.IsNullOrEmpty(relativeJsonPath))
                 {

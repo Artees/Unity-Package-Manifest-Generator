@@ -59,6 +59,8 @@ namespace Artees.UnityPackageManifestGenerator.Editor
         private PackageAuthor author = new PackageAuthor();
 
         [SerializeField, HideInInspector] private bool autoExportJson = true;
+        [SerializeField, HideInInspector] private bool overrideExportJsonPath = false;
+        [SerializeField, HideInInspector] private string exportJsonPath = string.Empty;
 
         [SerializeField, HideInInspector] private string registryUrl = "https://registry.my-company.com";
 #pragma warning restore 649
@@ -69,6 +71,22 @@ namespace Artees.UnityPackageManifestGenerator.Editor
         {
             get => autoExportJson;
             set => autoExportJson = value;
+        }
+
+        [SuppressMessage("ReSharper", "ConvertToAutoProperty",
+            Justification = "Serialized backing field")]
+        public bool OverrideExportJsonPath
+        {
+            get => overrideExportJsonPath;
+            set => overrideExportJsonPath = value;
+        }
+
+        [SuppressMessage("ReSharper", "ConvertToAutoProperty",
+            Justification = "Serialized backing field")]
+        public string AutoExportJsonPath
+        {
+            get => exportJsonPath;
+            set => exportJsonPath = value;
         }
 
         [SuppressMessage("ReSharper", "ConvertToAutoProperty",
